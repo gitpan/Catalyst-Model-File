@@ -5,13 +5,13 @@ use warnings;
 
 use base qw/Catalyst::Model/;
 use NEXT;
-use Carp;
+use Carp::Clan ('^Catalyst::Model::File');
 
 use IO::Dir;
 use Path::Class ();
 use IO::File;
 
-our $VERSION = 0.02;
+our $VERSION = 0.03;
 
 =head1 NAME
 
@@ -43,7 +43,7 @@ Simple file based storage model for Catalyst.
 sub new {
     my $self = shift->NEXT::new(@_);
 
-    croak "->config->{root_dir} must be defined for this model"
+    croak "->config->{root_dir} must be defined for this model\n"
         unless $self->{root_dir};
 
     unless (ref $self->{root_dir} ) {
@@ -78,7 +78,6 @@ change from OS to OS.
 =cut
 
 sub list {
-    $DB::single = 1;
     my ($self, %opt) = @_;
     my @files;
     $opt{mode} ||= 'files';
@@ -120,7 +119,6 @@ sub cd { shift->change_dir(@_) }
 
 
 sub change_dir {
-    $DB::single = 1;
     my $self = shift;
 
     my $dir = shift;

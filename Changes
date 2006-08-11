@@ -1,0 +1,13 @@
+This file documents the revision history for Perl extension Catalyst::Model::File.
+
+0.03
+
+ - Fixed tests under Win32
+
+0.02
+
+ - Initial CPAN release
+
+0.01
+
+ - Internal Dev version
