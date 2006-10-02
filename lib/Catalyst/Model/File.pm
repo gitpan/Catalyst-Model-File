@@ -11,7 +11,7 @@ use IO::Dir;
 use Path::Class ();
 use IO::File;
 
-our $VERSION = 0.03;
+our $VERSION = 0.04;
 
 =head1 NAME
 
@@ -28,7 +28,9 @@ Catalyst::Model::File - File based storage model for Catalyst.
         name          => 'MyApp',
         root          => MyApp->path_to('root'),
         'Model::File' => {
-            directory => MyApp->path_to('file_store')
+            root_dir => MyApp->path_to('file_store')
+        }
+    )
 
 Simple file based storage model for Catalyst.
 

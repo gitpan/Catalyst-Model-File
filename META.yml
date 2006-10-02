@@ -3,7 +3,7 @@ author: Ash Berlin, C<ash@cpan.org>
 build_requires: 
   Test::More: 0
 distribution_type: module
-generated_by: Module::Install version 0.63
+generated_by: Module::Install version 0.64
 license: perl
 name: Catalyst-Model-File
 no_index: 
@@ -15,4 +15,4 @@ requires:
   Catalyst: 5.69
   Path::Class: 0
   perl: 5.8.1
-version: 0.03
+version: 0.04

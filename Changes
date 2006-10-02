@@ -1,5 +1,9 @@
 This file documents the revision history for Perl extension Catalyst::Model::File.
 
+0.04
+
+ - Fixed incorect config example in documentation
+
 0.03
 
  - Fixed tests under Win32
