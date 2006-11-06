@@ -5,8 +5,7 @@ all_from        'lib/Catalyst/Model/File.pm';
 
 requires        'perl'                  => '5.8.1';
 requires        'Catalyst'              => '5.69';
-#requires        'Class::Data::Accessor' => '0.02';
-requires        'Path::Class';
+requires        'Path::Class'           => '0.15';
 
 build_requires  'Test::More';
 

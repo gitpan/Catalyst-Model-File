@@ -5,13 +5,13 @@ use warnings;
 
 use base qw/Catalyst::Model/;
 use NEXT;
-use Carp::Clan ('^Catalyst::Model::File');
+use Carp;
 
 use IO::Dir;
 use Path::Class ();
 use IO::File;
 
-our $VERSION = 0.04;
+our $VERSION = 0.05;
 
 =head1 NAME
 

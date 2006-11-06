@@ -1,6 +1,10 @@
 This file documents the revision history for Perl extension Catalyst::Model::File.
 
-0.04
+0.05 - 2006 Nov 06
+ 
+ - Fixed depends in Makefile.PL (whoops)
+
+0.04 - 2006 Oct 02
 
  - Fixed incorect config example in documentation
 
