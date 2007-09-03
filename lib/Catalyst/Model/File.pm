@@ -1,9 +1,9 @@
 package Catalyst::Model::File;
 
-use strict;
-use warnings;
+use Moose;
+extends 'Catalyst::Model';
+with 'Catalyst::Component::InstancePerContext';
 
-use base qw/Catalyst::Model/;
 use NEXT;
 use Carp;
 
@@ -11,7 +11,7 @@ use IO::Dir;
 use Path::Class ();
 use IO::File;
 
-our $VERSION = 0.05;
+our $VERSION = 0.06;
 
 =head1 NAME
 
@@ -28,9 +28,7 @@ Catalyst::Model::File - File based storage model for Catalyst.
         name          => 'MyApp',
         root          => MyApp->path_to('root'),
         'Model::File' => {
-            root_dir => MyApp->path_to('file_store')
-        }
-    )
+            directory => MyApp->path_to('file_store')
 
 Simple file based storage model for Catalyst.
 
@@ -45,7 +43,7 @@ Simple file based storage model for Catalyst.
 sub new {
     my $self = shift->NEXT::new(@_);
 
-    croak "->config->{root_dir} must be defined for this model\n"
+    croak "->config->{root_dir} must be defined for this model"
         unless $self->{root_dir};
 
     unless (ref $self->{root_dir} ) {
@@ -59,6 +57,14 @@ sub new {
     $self->{_dir} = $self->{root_dir};
 
     return $self;
+}
+
+sub build_per_context_instance {
+  my ($self, $c) = @_;
+
+  $self->cd('/');
+
+  return $self;
 }
 
 =head2 list
@@ -102,11 +108,10 @@ sub list {
 
     return @files if $opt{dir} && $opt{file};
 
-    my $meth = $opt{dir} ? 'is_dir' : 'is_file';
+    return $opt{dir} ?
+      grep { $_->is_dir } @files :
+      grep { !$_->is_dir } @files;
 
-    return map { $_->relative($self->{_dir}) } 
-        grep { $_->is_dir && $opt{dir} || !$_->is_dir && $opt{file}
-        } @files;
 }
 
 =head2 change_dir

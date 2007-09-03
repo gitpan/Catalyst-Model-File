@@ -30,7 +30,7 @@ my $model = TestApp->model('File');
 
 $model->cd('sub', 'dir');
 
-is(Path::Class::dir(qw'/ sub dir'), $model->pwd, "pwd is correct");
+is(Path::Class::dir('/sub/dir'), $model->pwd, "pwd is correct");
 
 is_deeply([
         Path::Class::file('file.txt')
@@ -40,9 +40,9 @@ is_deeply([
 
 $model->cd('..', 'foo');
 
-is(Path::Class::dir(qw'/ sub foo'), $model->pwd, "pwd right after cd('..')");
+is(Path::Class::dir('/sub/foo'), $model->pwd, "pwd right after cd('..')");
 
-is(Path::Class::dir(qw'/ sub'), $model->parent->pwd, "Parent right");
+is(Path::Class::dir('/sub'), $model->parent->pwd, "Parent right");
 is(Path::Class::dir('/'), $model->parent->pwd, "Parent right");
 is(Path::Class::dir('/'), $model->parent->pwd, "Parent doesn't go out of root");
 

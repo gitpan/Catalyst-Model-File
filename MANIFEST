@@ -16,5 +16,7 @@ t/01use.t
 t/02pod.t
 t/04basic.t
 t/05cd.t
+t/06live.t
 t/lib/TestApp.pm
+t/lib/TestApp/Controller/Root.pm
 t/lib/TestApp/Model/File.pm
