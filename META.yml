@@ -1,23 +1,26 @@
---- 
-abstract: File based storage model for Catalyst.
-author: Ash Berlin, C<ash@cpan.org>
-build_requires: 
+---
+abstract: 'File based storage model for Catalyst.'
+author:
+  - 'Ash Berlin, C<ash@cpan.org>'
+build_requires:
   Test::More: 0
 distribution_type: module
-generated_by: Module::Install version 0.67
+generated_by: 'Module::Install version 0.770'
 license: perl
-meta-spec: 
-  url: http://module-build.sourceforge.net/META-spec-v1.3.html
-  version: 1.3
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
 name: Catalyst-Model-File
-no_index: 
-  directory: 
+no_index:
+  directory:
     - t/lib
     - inc
     - t
-requires: 
+requires:
   Catalyst: 5.69
   Catalyst::Component::InstancePerContext: 0
   Path::Class: 0
   perl: 5.8.1
-version: 0.06
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.07
