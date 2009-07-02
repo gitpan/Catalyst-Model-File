@@ -4,14 +4,16 @@ use Moose;
 extends 'Catalyst::Model';
 with 'Catalyst::Component::InstancePerContext';
 
-use NEXT;
+no Moose;
+
+use MRO::Compat;
 use Carp;
 
 use IO::Dir;
 use Path::Class ();
 use IO::File;
 
-our $VERSION = 0.07;
+our $VERSION = 0.08;
 
 =head1 NAME
 
@@ -41,7 +43,7 @@ Simple file based storage model for Catalyst.
 =cut
 
 sub new {
-    my $self = shift->NEXT::new(@_);
+    my $self = shift->next::method(@_);
 
     croak "->config->{root_dir} must be defined for this model"
         unless $self->{root_dir};
@@ -126,7 +128,7 @@ sub _rebless {
     bless $entity, 'Catalyst::Model::File::File';
   }
 
-  $entity->{stringify_as} = $entity->relative($self->{_dir})->stringify;
+  $entity->{stringify_as} = $entity->relative($self->{_dir})->as_foreign('Unix')->stringify;
   return $entity;
 }
 
@@ -187,7 +189,7 @@ Get the current working directory, from which all relative paths are based.
 sub pwd { shift->directory(@_) }
 
 sub directory {
-    return shift->{directory};
+    return shift->{directory}->as_foreign('Unix');
 }
 
 =head2 parent
