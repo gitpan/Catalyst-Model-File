@@ -4,11 +4,10 @@ package Module::Install::Makefile;
 use strict 'vars';
 use ExtUtils::MakeMaker   ();
 use Module::Install::Base ();
-use Fcntl qw/:flock :seek/;
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '1.04';
+	$VERSION = '0.97';
 	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
 }
@@ -219,14 +218,14 @@ sub write {
 		# an underscore, even though its own version may contain one!
 		# Hence the funny regexp to get rid of it.  See RT #35800
 		# for details.
-		my ($v) = $ExtUtils::MakeMaker::VERSION =~ /^(\d+\.\d+)/;
+		my $v = $ExtUtils::MakeMaker::VERSION =~ /^(\d+\.\d+)/;
 		$self->build_requires(     'ExtUtils::MakeMaker' => $v );
 		$self->configure_requires( 'ExtUtils::MakeMaker' => $v );
 	} else {
 		# Allow legacy-compatibility with 5.005 by depending on the
 		# most recent EU:MM that supported 5.005.
-		$self->build_requires(     'ExtUtils::MakeMaker' => 6.36 );
-		$self->configure_requires( 'ExtUtils::MakeMaker' => 6.36 );
+		$self->build_requires(     'ExtUtils::MakeMaker' => 6.42 );
+		$self->configure_requires( 'ExtUtils::MakeMaker' => 6.42 );
 	}
 
 	# Generate the MakeMaker params
@@ -241,6 +240,7 @@ in a module, and provide its file path via 'version_from' (or
 'all_from' if you prefer) in Makefile.PL.
 EOT
 
+	$DB::single = 1;
 	if ( $self->tests ) {
 		my @tests = split ' ', $self->tests;
 		my %seen;
@@ -364,9 +364,9 @@ sub fix_up_makefile {
 		. ($self->postamble || '');
 
 	local *MAKEFILE;
-	open MAKEFILE, "+< $makefile_name" or die "fix_up_makefile: Couldn't open $makefile_name: $!";
-	eval { flock MAKEFILE, LOCK_EX };
+	open MAKEFILE, "< $makefile_name" or die "fix_up_makefile: Couldn't open $makefile_name: $!";
 	my $makefile = do { local $/; <MAKEFILE> };
+	close MAKEFILE or die $!;
 
 	$makefile =~ s/\b(test_harness\(\$\(TEST_VERBOSE\), )/$1'inc', /;
 	$makefile =~ s/( -I\$\(INST_ARCHLIB\))/ -Iinc$1/g;
@@ -386,8 +386,7 @@ sub fix_up_makefile {
 	# XXX - This is currently unused; not sure if it breaks other MM-users
 	# $makefile =~ s/^pm_to_blib\s+:\s+/pm_to_blib :: /mg;
 
-	seek MAKEFILE, 0, SEEK_SET;
-	truncate MAKEFILE, 0;
+	open  MAKEFILE, "> $makefile_name" or die "fix_up_makefile: Couldn't open $makefile_name: $!";
 	print MAKEFILE  "$preamble$makefile$postamble" or die $!;
 	close MAKEFILE  or die $!;
 
@@ -411,4 +410,4 @@ sub postamble {
 
 __END__
 
-#line 540
+#line 539

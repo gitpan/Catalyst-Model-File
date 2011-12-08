@@ -15,7 +15,7 @@ use IO::Dir;
 use Path::Class ();
 use IO::File;
 
-our $VERSION = 0.09;
+our $VERSION = '0.10';
 
 =head1 NAME
 
@@ -285,6 +285,8 @@ sub splat {
     $file->openw->print(@_);
 }
 
+__PACKAGE__->meta->make_immutable;
+
 package #
    Catalyst::Model::File::File;
 use base 'Path::Class::File';
@@ -343,6 +345,5 @@ it under the same terms as Perl itself.
 
 =cut
 
-__PACKAGE__->meta->make_immutable;
 1;
 

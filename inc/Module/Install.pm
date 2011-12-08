@@ -22,6 +22,7 @@ use strict 'vars';
 use Cwd        ();
 use File::Find ();
 use File::Path ();
+use FindBin;
 
 use vars qw{$VERSION $MAIN};
 BEGIN {
@@ -31,7 +32,7 @@ BEGIN {
 	# This is not enforced yet, but will be some time in the next few
 	# releases once we can make sure it won't clash with custom
 	# Module::Install extensions.
-	$VERSION = '1.04';
+	$VERSION = '0.97';
 
 	# Storage for the pseudo-singleton
 	$MAIN    = undef;
@@ -230,12 +231,7 @@ sub preload {
 sub new {
 	my ($class, %args) = @_;
 
-	delete $INC{'FindBin.pm'};
-	{
-		# to suppress the redefine warning
-		local $SIG{__WARN__} = sub {};
-		require FindBin;
-	}
+	FindBin->again;
 
 	# ignore the prefix on extension modules built from top level.
 	my $base_path = Cwd::abs_path($FindBin::Bin);
@@ -451,7 +447,7 @@ sub _version ($) {
 }
 
 sub _cmp ($$) {
-	_version($_[1]) <=> _version($_[2]);
+	_version($_[0]) <=> _version($_[1]);
 }
 
 # Cloned from Params::Util::_CLASS
@@ -467,4 +463,4 @@ sub _CLASS ($) {
 
 1;
 
-# Copyright 2008 - 2011 Adam Kennedy.
+# Copyright 2008 - 2010 Adam Kennedy.
